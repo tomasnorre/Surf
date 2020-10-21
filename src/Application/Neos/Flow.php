@@ -12,12 +12,14 @@ use TYPO3\Surf\Application\BaseApplication;
 use TYPO3\Surf\Domain\Model\Deployment;
 use TYPO3\Surf\Domain\Model\Workflow;
 use TYPO3\Surf\Task\Composer\InstallTask;
+use TYPO3\Surf\Task\Generic\RollbackTask;
 use TYPO3\Surf\Task\Neos\Flow\CopyConfigurationTask;
 use TYPO3\Surf\Task\Neos\Flow\CreateDirectoriesTask;
 use TYPO3\Surf\Task\Neos\Flow\MigrateTask;
 use TYPO3\Surf\Task\Neos\Flow\PublishResourcesTask;
 use TYPO3\Surf\Task\Neos\Flow\SymlinkConfigurationTask;
 use TYPO3\Surf\Task\Neos\Flow\SymlinkDataTask;
+use TYPO3\Surf\Task\Neos\Flow\WarmUpCacheTask;
 
 class Flow extends BaseApplication
 {
@@ -56,7 +58,12 @@ class Flow extends BaseApplication
                 CopyConfigurationTask::class
             ], $this)
             ->addTask(MigrateTask::class, 'migrate', $this)
-            ->addTask(PublishResourcesTask::class, 'finalize', $this);
+            ->addTask([
+                PublishResourcesTask::class,
+                WarmUpCacheTask::class
+            ], 'finalize', $this);
+
+        $workflow->afterTask(RollbackTask::class, WarmUpCacheTask::class, $this);
     }
 
     protected function registerTasksForUpdateMethod(Workflow $workflow, string $updateMethod): void

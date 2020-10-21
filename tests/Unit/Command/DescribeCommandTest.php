@@ -48,6 +48,7 @@ class DescribeCommandTest extends TestCase
     {
         $this->deployment = new Deployment('TestDeployment');
         $this->deployment->setContainer(static::getKernel()->getContainer());
+
         $this->node = new Node('TestNode');
         $this->node->setHostname('hostname');
     }
@@ -338,6 +339,7 @@ Applications:
       finalize:
         tasks:
           <success>TYPO3\Surf\Task\Neos\Flow\PublishResourcesTask</success> (for application Neos)
+          <success>TYPO3\Surf\Task\Neos\Flow\WarmUpCacheTask</success> (for application Neos)
       test:
       switch:
         tasks:
