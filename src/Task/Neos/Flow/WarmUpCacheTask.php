@@ -9,7 +9,6 @@ namespace TYPO3\Surf\Task\Neos\Flow;
  * file that was distributed with this source code.
  */
 
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\Surf\Application\Neos\Flow as FlowApplication;
 use TYPO3\Surf\Domain\Model\Application;
